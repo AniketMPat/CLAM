@@ -1,6 +1,7 @@
 #include "CLexer.h"
 #include "CParser.h"
 
+// Antlr includes
 #include "ANTLRFileStream.h"
 #include "CommonTokenStream.h"
 #include "tree/ParseTree.h"
@@ -26,10 +27,7 @@ int main(int argc, char **argv) {
   // Get the root of the parse tree. Use your base rule name.
   antlr4::tree::ParseTree *tree = parser.file();
 
-  // HOW TO USE A VISITOR
-  // Make the visitor
   // MyVisitor visitor;
-  // Visit the tree
   // visitor.visit(tree);
 
   std::ofstream os(argv[2]);

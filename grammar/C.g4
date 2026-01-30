@@ -13,7 +13,7 @@ programBlock
 
 // Possible segments in C Program
 preprocessor
-    : include
+    : 'include'
     ;
 
 functionDecl
@@ -37,6 +37,22 @@ stat
 
 varDecl
     : typeName lVal Equal expr Semi
+    ;
+
+varInit
+    : lVal Equal expr Semi
+    ;
+
+functionName
+    : Identifier
+    ;
+
+returnType
+    : typeName
+    ;
+
+parameterList
+    : (typeName Identifier)*
     ;
 
 typeName
@@ -556,15 +572,6 @@ fragment SChar
     | EscapeSequence
     | '\\\n'   // Added line
     | '\\\r\n' // Added line
-    ;
-
-MultiLineMacro
-    : '#' (~[\n]*? '\\' '\r'? '\n')+ ~ [\n]+ -> channel (HIDDEN)
-    ;
-
-LineDirective
-    : ('#' [ \t]* 'line' | '#' [ \t]* [0-9]+)
-		.*? ( '\n' | '\r\n' | '\r' ) -> channel (LINEDIRECTIVECHANNEL)
     ;
 
 Directive
