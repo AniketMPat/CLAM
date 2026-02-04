@@ -1,7 +1,7 @@
 grammar C;
 
 file:
-    programBlock*? EOF
+    programBlock* EOF
     ;
 
 programBlock
@@ -21,7 +21,7 @@ functionDecl
     ;
 
 functionDef
-    : returnType functionName LeftParen parameterList RightParen LeftBrace stat RightBrace Semi
+    : returnType functionName LeftParen parameterList RightParen LeftBrace (stat)* RightBrace
     ;
 
 globalVarDecl
@@ -30,17 +30,18 @@ globalVarDecl
 
 // Statements
 stat
-    : varInit
+    : LeftBrace (stat*) RightBrace
+    | varInit
     | varDecl
-    | LeftBrace stat* RightBrace
+    | Return (expr)? Semi
     ;
 
 varDecl
-    : typeName lVal Equal expr Semi
+    : typeName lVal Assign expr Semi
     ;
 
 varInit
-    : lVal Equal expr Semi
+    : typeName lVal Semi
     ;
 
 functionName
@@ -52,7 +53,7 @@ returnType
     ;
 
 parameterList
-    : (typeName Identifier)*
+    : ( typeName Identifier (',' typeName Identifier)* )?
     ;
 
 typeName
