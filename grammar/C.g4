@@ -16,6 +16,10 @@ preprocessor
     : 'include'
     ;
 
+    globalVarDecl
+    : varDecl
+    ;
+
 functionDecl
     : returnType functionName LeftParen parameterList RightParen Semi
     ;
@@ -24,16 +28,14 @@ functionDef
     : returnType functionName LeftParen parameterList RightParen LeftBrace (stat)* RightBrace
     ;
 
-globalVarDecl
-    : varDecl
-    ;
-
 // Statements
 stat
     : LeftBrace (stat*) RightBrace
     | varInit
     | varDecl
     | Return (expr)? Semi
+    | functionDecl
+    | functionDef
     ;
 
 varDecl
@@ -67,19 +69,26 @@ expr
     // Binary Operators (Arithmetic, Comparators, Logical)
     | <assoc=right> (op=Plus | op=Minus | op=PlusPlus | op=MinusMinus) expr
     | <assoc=right> (op=Not) expr
+
     | left=expr (op=Star) right=expr
     | left=expr (op=Div) right=expr
     | left=expr (op=Mod) right=expr
+
     | left=expr (op=Plus) right=expr
     | left=expr (op=Minus) right=expr
+
     | left=expr (op=Greater) right=expr
     | left=expr (op=GreaterEqual) right=expr
     | left=expr (op=Less) right=expr
     | left=expr (op=LessEqual) right=expr
+
     | left=expr (op=Equal) right=expr
     | left=expr (op=NotEqual) right=expr
+
     | left=expr (op=AndAnd) right=expr
     | left=expr (op=OrOr) right=expr
+
+    | left=expr (op=Assign) right=expr // Assignment Expression
 
     | lVal
     | literal
