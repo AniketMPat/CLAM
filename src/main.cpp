@@ -30,6 +30,7 @@ int main(int argc, char **argv) {
     // Get the root of the parse tree. Use your base rule name.
     antlr4::tree::ParseTree *tree = parser.translationUnit();
 
+    std::cout << "Parse tree:\n" << tree->toStringTree(&parser) << std::endl;
     // MyVisitor visitor;
     // visitor.visit(tree);
 
